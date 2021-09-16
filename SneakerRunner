@@ -1,0 +1,42 @@
+#!/bin/bash
+
+website=a
+while [ $website == a ]
+do
+read -p 'Welcome to SneakerRunner! Would you like to go to (1) YeezySupply or (2) Adidas Yeezy? ' choice
+if [ $choice = 1 ]
+then
+read -p "What is the product number? " productnum
+website=yeezysupply.com/product/$productnum
+elif [ $choice = 2 ]
+then
+website=adidas.com/us/yeezy
+else
+echo "Invalid choice of website..."
+fi
+done
+
+profiles=0
+while [ $profiles == 0 ]
+do
+read -p "How many tabs would you like to open? " tabs
+if [[ $((tabs % 2)) -eq 0 ]]; 
+then 
+     profiles=tabs/2
+else
+     echo "Invalid number of tabs. Integer must be even."
+fi
+done
+
+echo "Okay! I will open up $tabs tabs for you on $website. Sit tight..."
+sleep 2
+for ((i=0; i<$profiles; i++)); 
+do
+    open -n -a "Google Chrome" --args --profile-directory="Profile $i" "$website"
+    open -n -a "Google Chrome" --args --incognito --profile-directory="Profile $i" "$website"
+    sleep 1
+done
+
+echo "All $tabs tabs are open! Enjoy!"
+sleep 7
+exit
